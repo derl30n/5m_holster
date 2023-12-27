@@ -18,11 +18,11 @@ Citizen.CreateThread(function()
             goto continue
         end
 
-        ped_data["weapon"] = new_weapon
+        ped_data.weapon = new_weapon
 
         if ped_data.component ~= nil then
             setPedEquipment(ped, ped_data.component, ped_data.equipment.id_holstered, ped_data.equipment.texture)
-            ped_data["component"] = nil -- TODO: do i need to set component to nil?
+            ped_data.component = nil -- TODO: do i need to set component to nil?
         end
 
         if supported_weapons_hash[new_weapon] == nil then
@@ -47,8 +47,8 @@ Citizen.CreateThread(function()
 
                     setPedEquipment(ped, component, equipment.id_drawn, equipment.texture_drawn)
 
-                    ped_data["component"] = component
-                    ped_data["equipment"] = equipment
+                    ped_data.component = component
+                    ped_data.equipment = equipment
 
                     goto continue
                     ::skipp::
