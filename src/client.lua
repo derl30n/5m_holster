@@ -2,15 +2,14 @@ local function setPedEquipment(ped, component, equipment, texture)
     SetPedComponentVariation(ped, component, equipment, texture, 0)
 end
 
-local function setEquipment(cache, ped, ped_weapon, component, weapons)
-    local weapon = weapons[ped_weapon]
+local function findEquipment(cache, ped, weapon, component)
     if weapon == nil then
         return
     end
 
     local ped_equipment_id = GetPedDrawableVariation(ped, component)
 
-    for _, equipment in ipairs(weapons[ped_weapon]) do
+    for _, equipment in ipairs(weapon) do
         if equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id then
             -- TODO: figure out how to refactor skipp/return to improve readability e.g. if not -> continue
 
@@ -50,7 +49,7 @@ local function updateEquipment(cache)
     end
 
     for component, weapons in pairs(ped_supported_equipment) do
-        cache = setEquipment(cache, ped, ped_weapon, component, weapons)
+        findEquipment(cache, ped, weapons[ped_weapon], component, weapons)
     end
 
     return
