@@ -5,7 +5,7 @@ end
 local function setEquipment(cache, ped, ped_weapon, component, weapons)
     local weapon = weapons[ped_weapon]
     if weapon == nil then
-        return cache
+        return
     end
 
     local ped_equipment_id = GetPedDrawableVariation(ped, component)
@@ -19,7 +19,7 @@ local function setEquipment(cache, ped, ped_weapon, component, weapons)
             cache.component = component
             cache.equipment = equipment
 
-            return cache
+            return
         end
     end
 end
@@ -29,7 +29,7 @@ local function updateEquipment(cache)
     local ped_weapon = GetSelectedPedWeapon(ped)
 
     if ped_weapon == cache.weapon then
-        return cache
+        return
     end
 
     cache.weapon = ped_weapon
@@ -40,20 +40,20 @@ local function updateEquipment(cache)
     end
 
     if supported_weapons_hash[ped_weapon] == nil then
-        return cache
+        return
     end
 
     local ped_supported_equipment = supported_equipment[GetEntityModel(ped)]
 
     if ped_supported_equipment == nil then
-        return cache
+        return
     end
 
     for component, weapons in pairs(ped_supported_equipment) do
         cache = setEquipment(cache, ped, ped_weapon, component, weapons)
     end
 
-    return cache
+    return
 end
 
 Citizen.CreateThread(function()
@@ -66,7 +66,7 @@ Citizen.CreateThread(function()
     -- TODO: write equipment changes to cache, delete pre-defined textures from config
 
     while true do
-        cached_ped_data = updateEquipment(cached_ped_data)
+        updateEquipment(cached_ped_data)
 
         Citizen.Wait(200)
     end
