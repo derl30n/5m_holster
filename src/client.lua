@@ -37,7 +37,7 @@ local function updateEquipment(cache)
     cache.weapon = ped_weapon
 
     if cache.component then -- prevent updating ped when nothing has changed
-        setPedEquipment(ped, cache.component, cache.equipment.id_holstered, cache.equipment.texture)
+        setPedEquipment(ped, cache.component, cache.equipment.id_holstered, cache.equipment.texture_holstered)
         cache.component = nil
     end
 

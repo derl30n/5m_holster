@@ -12,12 +12,12 @@ local function addPed(ped_name)
     supported_ped[ped_name] = GetHashKey(ped_name)
 end
 
-local function construct_equipment(id_holstered, id_drawn, texture, texture_drawn)
+local function construct_equipment(id_holstered, id_drawn, texture_holstered, texture_drawn)
     return {
         ["id_holstered"] = id_holstered,
         ["id_drawn"] = id_drawn,
-        ["texture"] = texture or 0,
-        ["texture_drawn"] = texture_drawn or texture
+        ["texture_holstered"] = texture_holstered or 0,
+        ["texture_drawn"] = texture_drawn or texture_holstered
     }
 end
 
