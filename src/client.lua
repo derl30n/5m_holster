@@ -49,7 +49,7 @@ local function updateEquipment(cache)
     end
 
     for component, weapons in pairs(ped_supported_equipment) do
-        findEquipment(cache, ped, weapons[ped_weapon], component, weapons)
+        findEquipment(cache, ped, weapons[ped_weapon], component)
     end
 
     return
