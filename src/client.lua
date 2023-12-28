@@ -17,13 +17,7 @@ local function findEquipment(ped, weapon, component)
 end
 
 local function updateEquipment(cache)
-    local ped = GetPlayerPed(-1)
     local ped_weapon = GetSelectedPedWeapon(ped)
-
-    if ped ~= cache.ped then
-        cache.ped = ped
-        cache.component = nil
-    end
 
     if ped_weapon == cache.weapon then
         return
@@ -62,7 +56,6 @@ end
 
 Citizen.CreateThread(function()
     local cached_ped_data = {
-        ["ped"] = nil,
         ["weapon"] = nil,
         ["component"] = nil,
         ["equipment"] = nil

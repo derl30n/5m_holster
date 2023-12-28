@@ -74,6 +74,7 @@ supported_equipment = {
                 construct_equipment(42, 43),
                 construct_equipment(110, 111),
                 construct_equipment(119, 120),
+                construct_equipment(186, 185),
                 construct_equipment(188, 187)
             },
             [supported_weapons.weapon_combatpistol] = {
