@@ -2,7 +2,7 @@ local function setPedEquipment(ped, component, equipment, texture)
     SetPedComponentVariation(ped, component, equipment, texture, 0)
 end
 
-local function findEquipment(cache, ped, weapon, component)
+local function findEquipment(ped, weapon, component)
     if weapon == nil then
         return
     end
@@ -11,14 +11,7 @@ local function findEquipment(cache, ped, weapon, component)
 
     for _, equipment in ipairs(weapon) do
         if equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id then
-            -- TODO: figure out how to refactor skipp/return to improve readability e.g. if not -> continue
-
-            setPedEquipment(ped, component, equipment.id_drawn, equipment.texture_drawn)
-
-            cache.component = component
-            cache.equipment = equipment
-
-            return
+            return equipment
         end
     end
 end
@@ -27,15 +20,20 @@ local function updateEquipment(cache)
     local ped = GetPlayerPed(-1)
     local ped_weapon = GetSelectedPedWeapon(ped)
 
+    if ped ~= cache.ped then
+        cache.ped = ped
+        cache.component = nil
+    end
+
     if ped_weapon == cache.weapon then
         return
     end
 
     cache.weapon = ped_weapon
 
-    if cache.component ~= nil then
+    if cache.component ~= nil then -- TODO: analyze gain of keeping this check and setting nil
         setPedEquipment(ped, cache.component, cache.equipment.id_holstered, cache.equipment.texture)
-        cache.component = nil -- TODO: do i need to set component to nil?
+        cache.component = nil -- prevents unnecessary updates
     end
 
     if supported_weapons_hash[ped_weapon] == nil then
@@ -49,7 +47,14 @@ local function updateEquipment(cache)
     end
 
     for component, weapons in pairs(ped_supported_equipment) do
-        findEquipment(cache, ped, weapons[ped_weapon], component)
+        local equipment = findEquipment(ped, weapons[ped_weapon], component)
+
+        if equipment ~= nil then
+            setPedEquipment(ped, component, equipment.id_drawn, equipment.texture_drawn)
+
+            cache.component = component
+            cache.equipment = equipment
+        end
     end
 
     return
@@ -57,6 +62,7 @@ end
 
 Citizen.CreateThread(function()
     local cached_ped_data = {
+        ["ped"] = nil,
         ["weapon"] = nil,
         ["component"] = nil,
         ["equipment"] = nil
