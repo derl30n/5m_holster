@@ -62,8 +62,8 @@ supported_equipment = {
             }
         },
 
-        --[component.accs] = {},
-        --[component.task] = {}
+        [component.accs] = {},
+        [component.task] = {}
     },
 
     [supported_ped.mp_m_freemode_01] = {
@@ -90,6 +90,6 @@ supported_equipment = {
                 construct_equipment(214, 216, 1)
             }
         },
-        --[component.task] = {}
+        [component.task] = {}
     }
 }
