@@ -36,9 +36,9 @@ local function updateEquipment(cache)
 
     cache.weapon = ped_weapon
 
-    if cache.component then -- TODO: analyze gain of keeping this check and setting nil
+    if cache.component then -- prevent updating ped when nothing has changed
         setPedEquipment(ped, cache.component, cache.equipment.id_holstered, cache.equipment.texture)
-        cache.component = nil -- prevents unnecessary updates
+        cache.component = nil
     end
 
     if not supported_weapons_hash[ped_weapon] then
@@ -69,8 +69,6 @@ Citizen.CreateThread(function()
         ["component"] = nil,
         ["equipment"] = nil
     }
-
-    -- TODO: write equipment changes to cache, delete pre-defined textures from config by trying to guess next texture
 
     while true do
         updateEquipment(cached_ped_data)
