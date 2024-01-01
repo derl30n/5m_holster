@@ -82,7 +82,7 @@ local COMPONENTS = {
     ##### #####      SEE README.md FOR DOCUMENTATION     ##### #####
 ]]--
 
-UPDATE_INTERVAL_IN_MS = 200
+PAUSE_DURATION_BETWEEN_UPDATES_IN_MS = 200
 
 -- see https://docs.fivem.net/docs/game-references/ped-models/ for more ped models
 registerPed("mp_f_freemode_01")

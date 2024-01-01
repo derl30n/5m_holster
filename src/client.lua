@@ -1,8 +1,23 @@
 local function setPedComponentVariationBasedOnWeaponChange(ped, component, equipment, texture)
     if not IsPedComponentVariationValid(ped, component, equipment, texture) then
-        local _, msg = pcall(error,"Invalid ped component variation: ")
-        print(msg, ped, component, equipment, texture)
-        return
+        local num_avail_equip = GetNumberOfPedDrawableVariations(ped, component) - 1
+        local num_avail_textures = GetNumberOfPedTextureVariations(ped, component, equipment) - 1
+        local suggested_issue_msg
+
+        print(equipment, num_avail_equip)
+        print(texture, num_avail_textures)
+
+        if equipment > num_avail_equip then
+            equipment = "!" .. equipment .. "!"
+            suggested_issue_msg = " | INVALID EQUIPMENT ID " .. tostring(equipment) .. " available variants: " .. tostring(num_avail_equip)
+        end
+
+        if texture > num_avail_textures then
+            texture = "!" .. texture .. "!"
+            suggested_issue_msg = " | INVALID TEXTURE ID " .. tostring(texture) .. " available textures: " .. tostring(num_avail_textures)
+        end
+
+        error("Invalid ped component variation: " .. tostring(ped) .. " " .. tostring(component) .. " " ..  tostring(equipment) .. " " ..  tostring(texture) .. suggested_issue_msg)
     end
     SetPedComponentVariation(ped, component, equipment, texture, 0)
 end
@@ -63,6 +78,6 @@ Citizen.CreateThread(function()
     while true do
         updateEquipment(cached_ped_data)
 
-        Citizen.Wait(UPDATE_INTERVAL_IN_MS)
+        Citizen.Wait(PAUSE_DURATION_BETWEEN_UPDATES_IN_MS)
     end
 end)
