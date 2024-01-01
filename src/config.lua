@@ -16,7 +16,13 @@ end
 
 -- Function to register a ped
 local function registerPed(ped_name)
-    REGISTERED_PEDS[ped_name] = GetHashKey(ped_name)
+    local ped_hash = GetHashKey(ped_name)
+
+    if not IsModelValid(ped_hash) then
+        error("invalid ped: " .. tostring(ped_name))
+    end
+
+    REGISTERED_PEDS[ped_name] = ped_hash
 end
 
 -- Function to register a weapon
@@ -24,7 +30,7 @@ local function registerWeapon(weapon_name)
     local weapon_hash = GetHashKey(weapon_name)
 
     if not IsWeaponValid(weapon_hash) then
-        error('Invalid weapon ' .. tostring(weapon_name))
+        error("Invalid weapon " .. tostring(weapon_name))
     end
 
     REGISTERED_WPNS[weapon_name] = weapon_hash
@@ -69,11 +75,21 @@ local COMPONENTS = {
     ["hand"] = 11 -- hands and arms
 }
 
+--[[
+    ##### #####        DO NOT CHANGE VALUES ABOVE        ##### #####
+    ##### #####          CONFIG STARTS HERE              ##### #####
+    ##### #####       MODIFY BELOW TO YOUR LIKINGS       ##### #####
+    ##### #####      SEE README.md FOR DOCUMENTATION     ##### #####
+]]--
+
+UPDATE_INTERVAL_IN_MS = 200
+
+-- see https://docs.fivem.net/docs/game-references/ped-models/ for more ped models
 registerPed("mp_f_freemode_01")
 registerPed("mp_m_freemode_01")
 -- Add more peds as needed
 
-
+-- see https://wiki.rage.mp/index.php?title=Weapons
 registerWeapon("weapon_pistol_mk2")
 registerWeapon("weapon_combatpistol")
 registerWeapon("weapon_stungun")
@@ -108,15 +124,15 @@ registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 279, 280, 1, 0)
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 282, 283, 1, 0)
 
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 245, 247, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 249, 251, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 257, 259, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 260, 262, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 245, 247, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 249, 251, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 257, 259, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 260, 262, 1)
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 263, 264)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 267, 269, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 271, 273, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 279, 281, 1, 0)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 282, 284, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 267, 269, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 271, 273, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 279, 281, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 282, 284, 1)
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 285, 286)
 
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 245, 248, 1)
