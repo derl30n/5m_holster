@@ -2,16 +2,19 @@ local supported_ped = {}
 local supported_weapons = {}
 supported_weapons_hash = {}
 
+-- Function to register a ped
+local function registerPed(ped_name)
+    supported_ped[ped_name] = GetHashKey(ped_name)
+end
+
+-- Function to register a weapon
 local function registerWeapon(weapon_name)
     local weapon_hash = GetHashKey(weapon_name)
     supported_weapons[weapon_name] = weapon_hash
     supported_weapons_hash[weapon_hash] = true
 end
 
-local function registerPed(ped_name)
-    supported_ped[ped_name] = GetHashKey(ped_name)
-end
-
+-- Function to create equipment definition
 local function createEquipmentDefinition(id_holstered, id_drawn, texture_holstered, texture_drawn)
     return {
         ["id_holstered"] = id_holstered,
@@ -22,7 +25,7 @@ local function createEquipmentDefinition(id_holstered, id_drawn, texture_holster
 end
 
 -- see https://www.lcpdfr.com/wiki/lspdfr/04/modding/doc/component/ OR https://wiki.rage.mp/index.php?title=Clothes
-local component = {
+local components = {
     ["head"] = 0,
     ["berd"] = 1, -- masks
     ["hair"] = 2, -- hair styles
@@ -54,7 +57,7 @@ registerWeapon("weapon_flashlight")
 -- add component from component_ids table
 supported_equipment = {
     [supported_ped.mp_f_freemode_01] = {
-        [component.teef] = {
+        [components.teef] = {
             [supported_weapons.weapon_pistol_mk2] = {
                 createEquipmentDefinition(1, 3),
                 createEquipmentDefinition(9, 7),
@@ -84,7 +87,7 @@ supported_equipment = {
             }
         },
 
-        [component.accs] = {
+        [components.accs] = {
             [supported_weapons.weapon_stungun] = {
                 createEquipmentDefinition(245, 246, 1, 0),
                 createEquipmentDefinition(249, 250, 1, 0),
@@ -123,7 +126,7 @@ supported_equipment = {
     },
 
     [supported_ped.mp_m_freemode_01] = {
-        [component.teef] = {
+        [components.teef] = {
             [supported_weapons.weapon_pistol_mk2] = {
                 createEquipmentDefinition(1, 3),
                 createEquipmentDefinition(9, 7),
@@ -165,7 +168,7 @@ supported_equipment = {
             }
         },
 
-        [component.accs] = {
+        [components.accs] = {
             [supported_weapons.weapon_stungun] = {
                 createEquipmentDefinition(199, 200, 1, 0),
                 createEquipmentDefinition(203, 204, 1, 0),

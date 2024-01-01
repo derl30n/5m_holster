@@ -64,6 +64,7 @@ local function updateEquipment(cache)
 end
 
 Citizen.CreateThread(function()
+    -- TODO: Initialize tables with an empty table {} instead of nil to avoid potential issues with accessing keys that do not exist.
     local cached_ped_data = {
         ["weapon"] = nil,
         ["component"] = nil,
