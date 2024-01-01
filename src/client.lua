@@ -2,26 +2,14 @@ local function setPedEquipment(ped, component, equipment, texture)
     SetPedComponentVariation(ped, component, equipment, texture, 0)
 end
 
-local function findEquipment(ped, weapon, component)
-    if not weapon then
-        return
-    end
+local function getMatchingEquipment(ped, ped_supported_equipment)
+    for component_id, component_list in pairs(ped_supported_equipment) do
+        local ped_equipment_id = GetPedDrawableVariation(ped, component_id)
 
-    local ped_equipment_id = GetPedDrawableVariation(ped, component)
-
-    for _, equipment in ipairs(weapon) do
-        if equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id then
-            return equipment
-        end
-    end
-end
-
-local function getMatchingEquipment(ped, ped_weapon, ped_supported_equipment)
-    for component, weapons in pairs(ped_supported_equipment) do
-        local equipment = findEquipment(ped, weapons[ped_weapon], component)
-
-        if equipment then
-            return component, equipment
+        for _, equipment in ipairs(component_list) do
+            if equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id then
+                return component_id, equipment
+            end
         end
     end
 end
@@ -36,7 +24,8 @@ local function updateEquipment(cache)
 
     cache.weapon = ped_weapon
 
-    if cache.component then -- prevent updating ped when nothing has changed
+    -- prevent updating ped when nothing has changed
+    if cache.component then
         setPedEquipment(ped, cache.component, cache.equipment.id_holstered, cache.equipment.texture_holstered)
         cache.component = nil
     end
@@ -45,13 +34,13 @@ local function updateEquipment(cache)
         return
     end
 
-    local ped_supported_equipment = supported_equipment[GetEntityModel(ped)]
+    local ped_supported_equipment = (supported_equipment[GetEntityModel(ped)] or {})[ped_weapon]
 
     if not ped_supported_equipment then
         return
     end
 
-    local component, equipment = getMatchingEquipment(ped, ped_weapon, ped_supported_equipment)
+    local component, equipment = getMatchingEquipment(ped, ped_supported_equipment)
 
     if not equipment then
         return
@@ -64,12 +53,7 @@ local function updateEquipment(cache)
 end
 
 Citizen.CreateThread(function()
-    -- TODO: Initialize tables with an empty table {} instead of nil to avoid potential issues with accessing keys that do not exist.
-    local cached_ped_data = {
-        ["weapon"] = nil,
-        ["component"] = nil,
-        ["equipment"] = nil
-    }
+    local cached_ped_data = {}
 
     while true do
         updateEquipment(cached_ped_data)
