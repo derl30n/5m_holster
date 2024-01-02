@@ -21,7 +21,7 @@ Even if you run into issues, this resource gives you detailed error messages and
 [<img src="https://i.imgur.com/r4oi14n.png" width="270" height="360">](https://i.imgur.com/r4oi14n.png)
 
 ## Features
-Supports every ped drawable and weapon loaded in game.
+Supports every ped drawable and weapon loaded in game. Including EUP.
 Basically everything you dreamt of, you can configure it.
 Draw a taser from the belt or vest, works. Wonna draw pepper spray from your duty belt? Sure, set ids in the config and enjoy!
 
