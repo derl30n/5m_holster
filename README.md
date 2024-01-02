@@ -41,7 +41,7 @@ registerPed("mp_f_freemode_01")
 registerPed("mp_m_freemode_01")
 ```
 
-When this is done, you can go ahead and [add equipment](https://github.com/derl30n/5m_holster/blob/master/README.md#L57) to this ped. The ped is available via `REGISTERED_PEDS.{ped_name}`.
+When this is done, you can go ahead and [add equipment](#adding-equipment) to this ped. The ped is available via `REGISTERED_PEDS.{ped_name}`.
 
 ### Removing Peds
 Simply remove the corresponding `registerPed` line. Ensure there is no [equipment](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L102) left requiring the ped.
@@ -56,7 +56,7 @@ registerWeapon("weapon_doubleaction")   -- Double Action Revolver
 registerWeapon("weapon_navyrevolver")   -- Navy Revolver
 ````
 
-When this is done, you can go ahead and [add equipment](https://github.com/derl30n/5m_holster/blob/master/README.md#L57) using your new weapon. The weapon is available via `REGISTERED_WPNS.{weapon_name}`.
+When this is done, you can go ahead and [add equipment](#adding-equipment) using your new weapon. The weapon is available via `REGISTERED_WPNS.{weapon_name}`.
 
 ### Removing Weapons
 Simply remove the corresponding `registerWeapon` line. Ensure there is no [equipment](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L102) left requiring the weapon.
@@ -100,7 +100,7 @@ local COMPONENTS = {
 }
 ````
 
-The `registerEquipment` function requires multiple parameters. The first three are [`PED`](https://github.com/derl30n/5m_holster/blob/master/README.md#L57), [`COMPONENT`](https://github.com/derl30n/5m_holster/blob/master/README.md#L57) and [`WEAPON`](https://github.com/derl30n/5m_holster/blob/master/README.md#L57).
+The `registerEquipment` function requires multiple parameters. The first three are [`PED`](#adding-peds), [`COMPONENT`](#adding-equipment) and [`WEAPON`](#adding-weapons).
 
 `registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 3, 1)`
 
@@ -108,9 +108,9 @@ The `3` represents the holstered id of the variation and the `1` the drawn id.
 
 | name                                                                         | type | accessible via  | required | description                                              |
 |------------------------------------------------------------------------------|------|-----------------|----------|----------------------------------------------------------|
-| [ped](https://github.com/derl30n/5m_holster/blob/master/README.md#L57)       | hash | REGISTERED_PEDS | yes      | referes to the ped model, defined with 'registerPed'     |
-| [component](https://github.com/derl30n/5m_holster/blob/master/README.md#L57) | int  | COMPONENTS      | yes      | referes to a peds component, defined in 'COMPONENTS'     |
-| [weapon](https://github.com/derl30n/5m_holster/blob/master/README.md#L57)    | hash | REGISTERED_WPNS | yes      | referes to a weapon model, defined with 'registerWeapon' |
+| [ped](#adding-peds)       | hash | REGISTERED_PEDS | yes      | referes to the ped model, defined with 'registerPed'     |
+| [component](#adding-equipment) | int  | COMPONENTS      | yes      | referes to a peds component, defined in 'COMPONENTS'     |
+| [weapon](#adding-weapons)    | hash | REGISTERED_WPNS | yes      | referes to a weapon model, defined with 'registerWeapon' |
 | holstered id                                                                 | int  | none            | yes      | referes to the drawable component of the ped             |
 | drawn id                                                                     | int  | none            | yes      | referes to the drawable component of the ped             |
 | texture holstered                                                            | int  | none            | no       | referes to the texture of the holster                    |
