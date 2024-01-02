@@ -49,11 +49,11 @@ local function updateEquipment(cache)
         cache.component = nil
     end
 
-    if not supported_weapons_hash[ped_weapon] then
+    if not SUPPORTED_WEAPONS_HASH[ped_weapon] then
         return
     end
 
-    local ped_supported_components = (supported_equipment[GetEntityModel(ped)] or {})[ped_weapon]
+    local ped_supported_components = (SUPPORTED_EQUIPMENT[GetEntityModel(ped)] or {})[ped_weapon]
 
     if not ped_supported_components then
         return

@@ -1,5 +1,5 @@
-supported_weapons_hash = {}
-supported_equipment = {}
+SUPPORTED_WEAPONS_HASH = {}
+SUPPORTED_EQUIPMENT = {}
 
 local REGISTERED_PEDS = {}
 local REGISTERED_WPNS = {}
@@ -34,14 +34,14 @@ local function registerWeapon(weapon_name)
     end
 
     REGISTERED_WPNS[weapon_name] = weapon_hash
-    supported_weapons_hash[weapon_hash] = true
+    SUPPORTED_WEAPONS_HASH[weapon_hash] = true
 end
 
 -- Function to register equipment
 local function registerEquipment(ped_hash, component_id, weapon_hash, id_holstered, id_drawn, texture_holstered, texture_drawn)
     local equipment_definition = createEquipmentDefinition(id_holstered, id_drawn, texture_holstered, texture_drawn)
 
-    local weapon_list = supported_equipment[ped_hash] or {}
+    local weapon_list = SUPPORTED_EQUIPMENT[ped_hash] or {}
     local component_list = weapon_list[weapon_hash] or {}
     local equipment_list = component_list[component_id] or {}
 
@@ -50,7 +50,7 @@ local function registerEquipment(ped_hash, component_id, weapon_hash, id_holster
 
     component_list[component_id] = equipment_list
     weapon_list[weapon_hash] = component_list
-    supported_equipment[ped_hash] = weapon_list
+    SUPPORTED_EQUIPMENT[ped_hash] = weapon_list
 end
 
 -- Function to mass register equipment within an explicit range
