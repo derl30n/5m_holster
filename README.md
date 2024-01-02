@@ -1,4 +1,4 @@
-# Holster Script for [FiveM <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/FiveM-Logo.png" width="90" height="50" />](https://fivem.net/)
+# Advanced Holster Script for [FiveM <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/FiveM-Logo.png" width="90" height="50" />](https://fivem.net/)
 
 [![GitHub release (with filter)](https://img.shields.io/github/v/release/derl30n/5m_holster)](https://github.com/derl30n/5m_holster/releases/latest)
 [![Github All Releases download count](https://img.shields.io/github/downloads/derl30n/5m_holster/total?style=flat&color=brightgreen)](https://github.com/derl30n/5m_holster/releases/latest)
@@ -247,3 +247,10 @@ Yes, in fact, it's already preconfigured to work for the default pistol holsters
 
 ### Does this have custom animations?
 No, this resource does not have custom animations.
+
+### Does this work in Singleplayer for LSPDFR?
+No, this is a cfx resource for FiveM only.
+
+## License
+
+[GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
