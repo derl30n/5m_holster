@@ -29,7 +29,7 @@ Draw a taser from the belt or vest, works. Wonna draw pepper spray from your dut
 ## Installation
 1. Download the [latest release](https://github.com/derl30n/5m_holster/releases/latest) as a zip file, or clone the repository using Git.
 2. Put it in your `resources` folder.
-3. Add `ensure holster` to your `server.cfg` to ensure it is run on start-up.
+3. Add `ensure 5m_holster` to your `server.cfg` to ensure it is run on start-up.
 
 ## Configuration
 
