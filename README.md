@@ -13,8 +13,9 @@ Thanks to its powerful and highly modular config it's super easy to configure to
 Even if you run into issues, this resource gives you detailed error messages and solutions to the issues at hand.
 
 
-<img src="https://media.giphy.com/media/loGRS56xWOA5fEy5OF/giphy.gif" width="185.5" height="240" alt=""/>
-
+[<img src="https://media.giphy.com/media/loGRS56xWOA5fEy5OF/giphy.gif" width="300" height="400"/>]()
+[<img src="https://i.imgur.com/1pmOQKI.png" width="300" height="400">](https://i.imgur.com/1pmOQKI.png)
+[<img src="https://i.imgur.com/r4oi14n.png" width="300" height="400">](https://i.imgur.com/r4oi14n.png)
 
 ## Installation
 1. Download the [latest release](https://github.com/derl30n/5m_holster/releases/latest) as a zip file, or clone the repository using Git.
@@ -56,6 +57,23 @@ Simply remove the corresponding `registerWeapon` line. Ensure there is no [equip
 
 ### Adding Equipment
 A number of holsters are already integrated. To add new weapons simply create a new entry `registerEquipment` below the already existing ones. [Clothes can be found here.](https://github.com/root-cause/v-clothingnames/) The easiest way to configure for a mp character is by using a resource like the [eup-ui](https://forum.cfx.re/t/release-eup-for-fivem-server-sided/139848). Then simply select the body part and component id. You can also set a texture if there is one available.
+
+<details>
+  <summary>Eup vMenu example</summary>
+    The picture below shows the default eup ui. The red circle marks the holster, the id is 149 and has 1 texture.
+
+Example for weapon holster as see:
+`registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 150, 149)`
+
+Example for taser holster as seen:
+`registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 260, 262, 1)`
+
+Examples can also be found down below in example config.
+
+[<img src="https://i.imgur.com/ll1eqMd.jpeg">](https://i.imgur.com/ll1eqMd.jpeg)
+</details>
+
+
 
 Body parts are already pre-defined as [`COMPONENTS`](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L64). More infos can be found on [rage](https://wiki.rage.mp/index.php?title=Clothes) or [lspdfr wiki](https://www.lcpdfr.com/wiki/lspdfr/04/modding/doc/component/).
 
