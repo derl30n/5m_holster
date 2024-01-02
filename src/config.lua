@@ -45,7 +45,8 @@ local function registerEquipment(ped_hash, component_id, weapon_hash, id_holster
     local component_list = weapon_list[weapon_hash] or {}
     local equipment_list = component_list[component_id] or {}
 
-    table.insert(equipment_list, equipment_definition)
+    equipment_list[equipment_definition.id_drawn] = equipment_definition
+    equipment_list[equipment_definition.id_holstered] = equipment_definition
 
     component_list[component_id] = equipment_list
     weapon_list[weapon_hash] = component_list

@@ -25,11 +25,10 @@ end
 local function getMatchingEquipment(ped, ped_supported_components)
     for component_id, component_list in pairs(ped_supported_components) do
         local ped_equipment_id = GetPedDrawableVariation(ped, component_id)
+        local equipment = component_list[ped_equipment_id]
 
-        for _, equipment in ipairs(component_list) do
-            if equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id then
-                return component_id, equipment
-            end
+        if equipment and (equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id) then
+            return component_id, equipment
         end
     end
 end
