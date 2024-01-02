@@ -1,6 +1,9 @@
 # Holster Script for [FiveM <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/FiveM-Logo.png" width="90" height="50" />](https://fivem.net/)
-[![GitHub latest release version](https://img.shields.io/github/v/release/derl30n/5m_holster.svg?style=flat)](https://github.com/derl30n/5m_holster/releases/latest)
-[![Github All Releases download count](https://img.shields.io/github/downloads/derl30n/5m_holster/total.svg?style=flat)](https://github.com/derl30n/5m_holster/releases/latest)
+
+[![GitHub release (with filter)](https://img.shields.io/github/v/release/derl30n/5m_holster)](https://github.com/derl30n/5m_holster/releases/latest)
+[![Github All Releases download count](https://img.shields.io/github/downloads/derl30n/5m_holster/total?style=flat&color=brightgreen)](https://github.com/derl30n/5m_holster/releases/latest)
+
+
 
 
 This is a server-side resource (executed on client only) for the Grand Theft Auto V Multiplayer [FiveM](https://fivem.net).
