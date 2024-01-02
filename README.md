@@ -13,9 +13,9 @@ Thanks to its powerful and highly modular config it's super easy to configure to
 Even if you run into issues, this resource gives you detailed error messages and solutions to the issues at hand.
 
 
-[<img src="https://media.giphy.com/media/loGRS56xWOA5fEy5OF/giphy.gif" width="270" height="400"/>]()
-[<img src="https://i.imgur.com/1pmOQKI.png" width="270" height="400">](https://i.imgur.com/1pmOQKI.png)
-[<img src="https://i.imgur.com/r4oi14n.png" width="270" height="400">](https://i.imgur.com/r4oi14n.png)
+[<img src="https://media.giphy.com/media/loGRS56xWOA5fEy5OF/giphy.gif" width="270" height="360"/>]()
+[<img src="https://i.imgur.com/1pmOQKI.png" width="270" height="360">](https://i.imgur.com/1pmOQKI.png)
+[<img src="https://i.imgur.com/r4oi14n.png" width="270" height="360">](https://i.imgur.com/r4oi14n.png)
 
 ## Installation
 1. Download the [latest release](https://github.com/derl30n/5m_holster/releases/latest) as a zip file, or clone the repository using Git.
