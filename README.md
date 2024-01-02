@@ -17,6 +17,12 @@ Even if you run into issues, this resource gives you detailed error messages and
 [<img src="https://i.imgur.com/1pmOQKI.png" width="270" height="360">](https://i.imgur.com/1pmOQKI.png)
 [<img src="https://i.imgur.com/r4oi14n.png" width="270" height="360">](https://i.imgur.com/r4oi14n.png)
 
+## Features
+Supports every ped drawable and weapon loaded in game.
+Basically everything you dreamt of, you can configure it.
+Draw a taser from the belt or vest, works. Wonna draw pepper spray from your duty belt? Sure, set ids in the config and enjoy!
+
+
 ## Installation
 1. Download the [latest release](https://github.com/derl30n/5m_holster/releases/latest) as a zip file, or clone the repository using Git.
 2. Put it in your `resources` folder.
