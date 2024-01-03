@@ -1,0 +1,67 @@
+name: Bug Report
+description: File a bug report
+labels: [Bug]
+body:
+  - type: markdown
+    attributes:
+      value: "# Bug Report Form"
+  - type: dropdown
+    id: version
+    attributes:
+      label: Version
+      description: What version of the Holster are you using?
+      options:
+        - v1.0.1
+        - v1.0.0
+    validations:
+      required: true
+  - type: textarea
+    id: desc
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is and what happened.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+        ...
+      description: We need to know how you encountered the bug to properly troubleshoot the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: References (optional)
+      description: If applicable, add screenshots or videos to help explain your problem.
+    validations:
+      required: false
+  - type: textarea
+    id: misc
+    attributes:
+      label: Additional info (optional)
+      description: Add any other context about the problem here. Was this working before? When did the issue start occurring?
+    validations:
+      required: false
+  - type: checkboxes
+    id: validation-check
+    attributes:
+    label: Please confirm the following:
+    options:
+      - label: I've checked for similar issues before opening this issue.
+        required: true
+  - type: markdown
+    attributes:
+    value: "### Thank you very much for taking your time to fill out this report form."
