@@ -39,7 +39,7 @@ body:
 - type: checkboxes
   id: validation-check
   attributes:
-    label: Please confirm the following:
+    label: Please confirm the following
     options:
       - label: I've checked for similar requests before opening this issue.
         required: true
