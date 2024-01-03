@@ -1,3 +1,6 @@
+<img src="https://forum.cfx.re/uploads/default/original/4X/b/0/a/b0aceb1e3dce500229c5c187f28281f67015afe8.png"/>
+
+
 # Advanced Holster Script for [FiveM <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/FiveM-Logo.png" width="90" height="50" />](https://fivem.net/)
 
 [![GitHub release (with filter)](https://img.shields.io/github/v/release/derl30n/5m_holster)](https://github.com/derl30n/5m_holster/releases/latest)
