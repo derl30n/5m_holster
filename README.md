@@ -243,6 +243,16 @@ The `3` represents the holstered id of the variation and the `1` the drawn id.
 
 </details>
 
+## Support
+
+### Resource not working
+Please open the console with `F8` and check for error messages.
+<img src="https://i.imgur.com/ZygRVtM.png" />
+_This example shows an error with the texture id, it's `1` hower `0` textures are available; The variable responsible for the error is always marked with exclamation marks!_
+
+### Issue and Feature reports
+If you experience bugs or want to request features, please [open an issue on github](https://github.com/derl30n/5m_holster/issues/new/choose).
+
 ## FAQ
 ### How does this work?
 Peds in GTA have variations of duty belts with and without guns in their holster. This script puts these variations to use by automatically changing components when the player draws or holsters a weapon. It's fully configurable and supports an unlimited combination of peds, weapons and components.
@@ -255,9 +265,6 @@ No, this resource does not have custom animations.
 
 ### Does this work in Singleplayer for LSPDFR?
 No, this is a cfx resource for FiveM only.
-
-## Support
-If you experience bugs or want to request features, please [open an issue on github](https://github.com/derl30n/5m_holster/issues/new/choose).
 
 ## License
 
