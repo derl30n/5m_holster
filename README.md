@@ -108,7 +108,9 @@ local COMPONENTS = {
 
 The `registerEquipment` function requires multiple parameters. The first three are [`PED`](#adding-peds), [`COMPONENT`](#adding-equipment) and [`WEAPON`](#adding-weapons).
 
-`registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 3, 1)`
+```lua
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 3, 1)
+```
 
 The `3` represents the holstered id of the variation and the `1` the drawn id.
 
