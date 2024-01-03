@@ -58,10 +58,12 @@ body:
   - type: checkboxes
     id: validation-check
     attributes:
-    label: Please confirm the following:
-    options:
-      - label: I've checked for similar issues before opening this issue.
-        required: true
+      label: Please confirm the following
+      options:
+        - label: I've checked for similar issues before opening this issue.
+          required: true
+    validations:
+      required: true
   - type: markdown
     attributes:
-    value: "### Thank you very much for taking your time to fill out this report form."
+      value: "#### Thank you very much for taking your time to fill out this report form."
