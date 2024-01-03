@@ -245,12 +245,10 @@ The `3` represents the holstered id of the variation and the `1` the drawn id.
 
 ## Support
 
-### Resource not working
 Please open the console with `F8` and check for error messages.
 <img src="https://i.imgur.com/ZygRVtM.png" />
 _This example shows an error with the texture id, it's `1` hower `0` textures are available; The variable responsible for the error is always marked with exclamation marks!_
 
-### Issue and Feature reports
 If you experience bugs or want to request features, please [open an issue on github](https://github.com/derl30n/5m_holster/issues/new/choose).
 
 ## FAQ
