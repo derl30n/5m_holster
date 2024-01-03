@@ -256,6 +256,9 @@ No, this resource does not have custom animations.
 ### Does this work in Singleplayer for LSPDFR?
 No, this is a cfx resource for FiveM only.
 
+## Support
+If you experience bugs or want to request features, please [open an issue on github](https://github.com/derl30n/5m_holster/issues/new/choose).
+
 ## License
 
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html)
