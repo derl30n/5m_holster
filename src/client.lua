@@ -4,9 +4,6 @@ local function setPedComponentVariationBasedOnWeaponChange(ped, component, equip
         local num_avail_textures = GetNumberOfPedTextureVariations(ped, component, equipment) - 1
         local suggested_issue_msg
 
-        print(equipment, num_avail_equip)
-        print(texture, num_avail_textures)
-
         if equipment > num_avail_equip then
             equipment = "!" .. equipment .. "!"
             suggested_issue_msg = " | INVALID EQUIPMENT ID " .. tostring(equipment) .. " available variants: " .. tostring(num_avail_equip)
