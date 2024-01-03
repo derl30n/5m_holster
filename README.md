@@ -1,4 +1,4 @@
-<img src="https://forum.cfx.re/uploads/default/original/4X/b/0/a/b0aceb1e3dce500229c5c187f28281f67015afe8.png"/>
+<img src="https://i.imgur.com/vKp2gsn.png" />
 
 
 # Advanced Holster Script for [FiveM <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/FiveM-Logo.png" width="90" height="50" />](https://fivem.net/)
