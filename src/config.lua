@@ -91,38 +91,105 @@ registerPed("mp_m_freemode_01")
 -- Add more peds as needed
 
 -- see https://wiki.rage.mp/index.php?title=Weapons
+registerWeapon("weapon_pistol_mk2")
 registerWeapon("weapon_combatpistol")
+registerWeapon("weapon_stungun")
+registerWeapon("weapon_nightstick")
 registerWeapon("weapon_revolver")
 registerWeapon("weapon_revolver_mk2")
 registerWeapon("weapon_doubleaction")
 registerWeapon("weapon_navyrevolver")
+registerWeapon("weapon_flashlight")
 -- Add more weapons as needed
 
 
--- Female MP Ped
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 3, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 1, 3)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 9, 3)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 29, 3)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 81, 82)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 88, 89)
+registerEquipmentRange(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 146, 176, -1)
+
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 6, 5)
 registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 8, 2)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 29, 30)
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 81, 82)
 
-registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_combatpistol, 9, 10)
 
--- Male MP Ped
-registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 1, 3)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 245, 246, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 249, 250, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 255, 256, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 257, 258, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 260, 261, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 267, 268, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 271, 272, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 277, 278, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 279, 280, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 282, 283, 1, 0)
+
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 245, 247, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 249, 251, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 257, 259, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 260, 262, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 263, 264)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 267, 269, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 271, 273, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 279, 281, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 282, 284, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 285, 286)
+
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 245, 248, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 249, 252, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 253, 254)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 263, 265)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 267, 270, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 271, 274, 1)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 275, 276)
+registerEquipment(REGISTERED_PEDS.mp_f_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 285, 287)
+
+
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 1, 3)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 9, 7)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 42, 43)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 110, 111)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 119, 120)
+registerEquipmentRange(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_pistol_mk2, 176, 206, -1)
+
 registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 6, 5)
 registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 8, 2)
-registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 42, 43)
-registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 110, 111)
-registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_combatpistol, 119, 120)
 
-registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_combatpistol, 16, 18)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_revolver, 122, 121)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_revolver_mk2, 122, 121)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_doubleaction, 122, 121)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_navyrevolver, 122, 121)
 
---[[ examples for different weapons
-    registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_revolver, 8, 2)
-    registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_revolver_mk2, 8, 2)
-    registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_doubleaction, 8, 2)
-    registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.teef, REGISTERED_WPNS.weapon_navyrevolver, 8, 2)
-]]--
 
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 199, 200, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 203, 204, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 209, 210, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 211, 212, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 214, 215, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 221, 222, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 225, 226, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 231, 232, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 233, 234, 1, 0)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_stungun, 236, 237, 1, 0)
+
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 199, 201, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 203, 205, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 211, 213, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 214, 216, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 217, 218)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 221, 223, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 225, 227, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 233, 235, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 236, 238, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_nightstick, 239, 240)
+
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 199, 202, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 203, 206, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 207, 208)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 217, 219)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 221, 224, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 225, 228, 1)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 229, 230)
+registerEquipment(REGISTERED_PEDS.mp_m_freemode_01, COMPONENTS.accs, REGISTERED_WPNS.weapon_flashlight, 239, 240)
 -- Add more equipment as needed
