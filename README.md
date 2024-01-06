@@ -68,7 +68,7 @@ When this is done, you can go ahead and [add equipment](#adding-equipment) using
 Simply remove the corresponding `registerWeapon` line. Ensure there is no [equipment](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L102) left requiring the weapon.
 
 ### Adding Equipment
-A number of holsters are already integrated. To add new weapons simply create a new entry `registerEquipment` below the already existing ones. [Clothes can be found here.](https://github.com/root-cause/v-clothingnames/) The easiest way to configure for a mp character is by using a resource like the [eup-ui](https://forum.cfx.re/t/release-eup-for-fivem-server-sided/139848). Then simply select the body part and component id. You can also set a texture if there is one available.
+A number of holsters are already integrated. To add a holster or belt simply create a new entry `registerEquipment` below the already existing ones. [Clothes can be found here.](https://github.com/root-cause/v-clothingnames/) The easiest way to configure for a mp character is by using a resource like the [eup-ui](https://forum.cfx.re/t/release-eup-for-fivem-server-sided/139848). Then simply select the body part and component id. You can also set a texture if there is one available.
 
 <details>
   <summary>Eup vMenu example</summary>
