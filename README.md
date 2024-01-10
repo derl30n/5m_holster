@@ -87,7 +87,7 @@ Examples can also be found down below in example config.
 
 
 
-Body parts are already pre-defined as [`COMPONENTS`](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L64). More infos can be found on [rage](https://wiki.rage.mp/index.php?title=Clothes) or [lspdfr wiki](https://www.lcpdfr.com/wiki/lspdfr/04/modding/doc/component/).
+Body parts are already pre-defined as [`COMPONENTS`](https://github.com/derl30n/5m_holster/blob/master/src/config.lua#L64). More info's can be found on [rage](https://wiki.rage.mp/index.php?title=Clothes) or [lspdfr wiki](https://www.lcpdfr.com/wiki/lspdfr/04/modding/doc/component/).
 
 ````lua
 local COMPONENTS = {
@@ -116,13 +116,13 @@ The `3` represents the holstered id of the variation and the `1` the drawn id.
 
 | name                                                                         | type | accessible via  | required | description                                              |
 |------------------------------------------------------------------------------|------|-----------------|----------|----------------------------------------------------------|
-| [ped](#adding-peds)       | hash | REGISTERED_PEDS | yes      | referes to the ped model, defined with 'registerPed'     |
-| [component](#adding-equipment) | int  | COMPONENTS      | yes      | referes to a peds component, defined in 'COMPONENTS'     |
-| [weapon](#adding-weapons)    | hash | REGISTERED_WPNS | yes      | referes to a weapon model, defined with 'registerWeapon' |
-| holstered id                                                                 | int  | none            | yes      | referes to the drawable component of the ped             |
-| drawn id                                                                     | int  | none            | yes      | referes to the drawable component of the ped             |
-| texture holstered                                                            | int  | none            | no       | referes to the texture of the holster                    |
-| texture drawn                                                                | int  | none            | no       | referes to the texture of thee holser                    |
+| [ped](#adding-peds)       | hash | REGISTERED_PEDS | yes      | refers to the ped model, defined with 'registerPed'     |
+| [component](#adding-equipment) | int  | COMPONENTS      | yes      | refers to a peds component, defined in 'COMPONENTS'     |
+| [weapon](#adding-weapons)    | hash | REGISTERED_WPNS | yes      | refers to a weapon model, defined with 'registerWeapon' |
+| holstered id                                                                 | int  | none            | yes      | refers to the drawable component of the ped             |
+| drawn id                                                                     | int  | none            | yes      | refers to the drawable component of the ped             |
+| texture holstered                                                            | int  | none            | no       | refers to the texture of the holster                    |
+| texture drawn                                                                | int  | none            | no       | refers to the texture of the holster                    |
 
 
 
@@ -247,9 +247,9 @@ The `3` represents the holstered id of the variation and the `1` the drawn id.
 
 Please open the console with `F8` and check for error messages.
 <img src="https://i.imgur.com/ZygRVtM.png" />
-_This example shows an error with the texture id, it's `1` hower `0` textures are available; The variable responsible for the error is always marked with exclamation marks!_
+_This example shows an error with the texture id, it's `1` however `0` textures are available; The variable responsible for the error is always marked with exclamation marks!_
 
-If you experience bugs or want to request features, please [open an issue on github](https://github.com/derl30n/5m_holster/issues/new/choose).
+If you experience bugs or want to request features, please [open an Issue on GitHub](https://github.com/derl30n/5m_holster/issues/new/choose).
 
 ## FAQ
 ### How does this work?
