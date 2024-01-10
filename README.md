@@ -287,19 +287,19 @@ The `-1` points to the drawn id `146 - 1 = 145`, if the drawn id would be `147` 
 
 ## FAQ
 
-#### How does this work?
+### How does this work?
 Peds have variations of duty belts with and without guns. The script changes components when the player draws or holsters a weapon, supporting unlimited combinations of peds, weapons, and components.
 
-#### Does this support EUP?
+### Does this support EUP?
 Yes, it's preconfigured to work with default pistol holsters for both female and male mp characters.
 
-#### Does this support EUP Addons?
+### Does this support EUP Addons?
 Yes, all clothes are supported.
 
-#### Does this have custom animations?
+### Does this have custom animations?
 No, it doesn't include custom animations.
 
-#### Does this work in Singleplayer for LSPDFR?
+### Does this work in Singleplayer for LSPDFR?
 No, this is a FiveM resource only.
 
 ## License
