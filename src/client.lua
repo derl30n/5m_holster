@@ -22,11 +22,11 @@ getmetatable("").__mod = interp
 ---
 local function createPedDataPackage(ped, component, equipment, texture)
     local ped_data_package = {
-        ["ped"] = ped,
-        ["component"] = component,
-        ["equipment"] = equipment,
-        ["texture"] = texture,
-        ["issue_message"] = ""
+        ped = ped,
+        component = component,
+        equipment = equipment,
+        texture = texture,
+        issue_message = ""
     }
 
 
