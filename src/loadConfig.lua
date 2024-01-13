@@ -3,7 +3,6 @@ SUPPORTED_EQUIPMENT = {
     data = {},      --- Stores equipment data.
     hash_table = {} --- Stores hash keys for quick existence checks.
 }
-SUPPORTED_EQUIPMENT = { data = {}, hash_table = {} }
 
 ---
 --- Add equipment data to the supported equipment table.
@@ -69,58 +68,60 @@ end
 
 
 ---
---- Register a pedestrian model by its name, storing its hash for future reference.
---- @param ped_name string Name of the pedestrian model.
---- @return number Hash of the pedestrian model.
+--- Registers a hash value for a given name, caches it, and returns the hash.
+--- Throws an error if the hash is not valid according to the specified verification function.
+--- @param name string The name associated with the hash.
+--- @param cache table The cache table to store the registered hash.
+--- @param verify function The verification function to check the validity of the hash.
+--- @param type string A string indicating the type of hash (e.g., "Ped" or "Weapon").
+--- @return number The registered hash value.
 ---
-local function registerPed(ped_name)
-    local ped_hash = GetHashKey(ped_name)
+local function registerHash(name, cache, verify, type)
+    local hash = GetHashKey(name)
 
-    if not IsModelValid(ped_hash) then
-        error("invalid ped: " .. tostring(ped_name))
+    if not verify(hash) then
+        error("Invalid " .. type .. ": " .. name)
     end
 
-    ped_hash_cache[ped_name] = ped_hash
+    cache[name] = hash
 
-    return ped_hash
+    return hash
 end
 
 
 ---
---- Get the hash of a pedestrian model by its name.
---- @param ped_name string Name of the pedestrian model.
---- @return number Hash of the pedestrian model.
+--- Retrieves a cached hash value for a given name, or registers and caches it if not found.
+--- Throws an error if the registered hash is not valid according to the specified verification function.
+--- @param name string The name associated with the hash.
+--- @param cache table The cache table to store and retrieve the hash.
+--- @param verify function The verification function to check the validity of the hash.
+--- @param type string A string indicating the type of hash (e.g., "Ped" or "Weapon").
+--- @return number The cached or registered hash value.
 ---
-local function getPedHash(ped_name)
-    return ped_hash_cache[ped_name] or registerPed(ped_name)
+local function getHash(name, cache, verify, type)
+    return cache[name] or registerHash(name, cache, verify, type)
 end
 
 
 ---
---- Register a weapon by its name, storing its hash for future reference.
---- @param weapon_name string Name of the weapon.
---- @return number Hash of the weapon.
+--- Retrieves the hash value for a pedestrian model by its name, caching and registering if necessary.
+--- Throws an error if the registered hash is not a valid pedestrian model.
+--- @param name string The name of the pedestrian model.
+--- @return number The pedestrian model hash value.
 ---
-local function registerWeapon(weapon_name)
-    local weapon_hash = GetHashKey(weapon_name)
-
-    if not IsWeaponValid(weapon_hash) then
-        error("Invalid weapon " .. tostring(weapon_name))
-    end
-
-    wpn_hash_cache[weapon_name] = weapon_hash
-
-    return weapon_hash
+local function getPedHash(name)
+    return getHash(name, ped_hash_cache, IsModelValid, "Ped")
 end
 
 
 ---
---- Get the hash of a weapon by its name.
---- @param weapon_name string Name of the weapon.
---- @return number Hash of the weapon.
+--- Retrieves the hash value for a weapon by its name, caching and registering if necessary.
+--- Throws an error if the registered hash is not a valid weapon.
+--- @param name string The name of the weapon.
+--- @return number The weapon hash value.
 ---
-local function getWeaponHash(weapon_name)
-    return wpn_hash_cache[weapon_name] or registerWeapon(weapon_name)
+local function getWeaponHash(name)
+    return getHash(name, wpn_hash_cache, IsWeaponValid, "Weapon")
 end
 
 
