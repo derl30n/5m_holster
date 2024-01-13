@@ -151,6 +151,8 @@ local function loadConfig()
     for _, element in ipairs(EQUIPMENT) do
         registerEquipment(table.unpack(element))
     end
+
+    EQUIPMENT = nil
 end
 
 loadConfig()
