@@ -1,69 +1,118 @@
---- Table storing equipment data and hash keys for quick existence checks.
-SUPPORTED_EQUIPMENT = {
-    data = {},      --- Stores equipment data.
-    hash_table = {} --- Stores hash keys for quick existence checks.
-}
+local EquipmentModule = {}
 
 ---
---- Add equipment data to the supported equipment table.
---- @param ped_hash number Hash of the pedestrian model.
---- @param weapon_hash number Hash of the weapon.
---- @param component number Component ID.
---- @param equipment table Equipment definition.
+--- Creates a new instance of the EquipmentModule.
+--- @return table New EquipmentModule instance.
 ---
-function SUPPORTED_EQUIPMENT:add(ped_hash, weapon_hash, component, equipment)
-    local comp_hash = ped_hash + weapon_hash
-    local component_list = self.data[comp_hash] or {}
-    local equipment_list = component_list[component] or {}
+function EquipmentModule.new()
+    local self = {
+        data = {},
+        hashTable = {}
+    }
 
-    equipment_list[equipment.id_drawn] = equipment
-    equipment_list[equipment.id_holstered] = equipment
+    ---
+    --- Adds equipment data to the supported equipment table.
+    --- @param pedHash number Hash of the pedestrian model.
+    --- @param weaponHash number Hash of the weapon.
+    --- @param component number Component ID.
+    --- @param equipment table Equipment definition.
+    ---
+    function self:add(pedHash, weaponHash, component, equipment)
+        local combinedHash = pedHash + weaponHash
+        local componentList = self.data[combinedHash] or {}
+        local equipmentList = componentList[component] or {}
 
-    component_list[component] = equipment_list
+        equipmentList[equipment.drawn.drawableId] = equipment
+        equipmentList[equipment.holstered.drawableId] = equipment
 
-    self.data[comp_hash] = component_list
-    self.hash_table[comp_hash] = true
+        componentList[component] = equipmentList
+
+        self.data[combinedHash] = componentList
+        self.hashTable[combinedHash] = true
+    end
+
+    ---
+    --- Checks if a combination of pedestrian and weapon hashes exists in the supported equipment table.
+    --- @param pedHash number Hash of the pedestrian model.
+    --- @param weaponHash number Hash of the weapon.
+    --- @return boolean True if the combination exists, otherwise false.
+    ---
+    function self:contains(pedHash, weaponHash)
+        self.currentCombinedHash = pedHash + weaponHash
+
+        return self.hashTable[self.currentCombinedHash] ~= nil
+    end
+
+    ---
+    --- Retrieves equipment data for the last checked hash keys.
+    --- @return table Equipment data corresponding to the last checked hash keys.
+    ---
+    function self:retrieve()
+        return self.data[self.currentCombinedHash]
+    end
+
+    return self
 end
 
+
+supportedEquipment = EquipmentModule.new()
+
+
+local pedHashCache = {}
+local wpnHashCache = {}
+
+
+local DrawableDefinition = {}
+
 ---
---- Check if a combination of pedestrian and weapon hashes exists in the supported equipment table.
---- @param ped_hash number Hash of the pedestrian model.
---- @param weapon_hash number Hash of the weapon.
---- @return boolean True if the combination exists, otherwise false.
+--- Creates a new instance of DrawableDefinition.
+--- @param drawableId number Drawable ID.
+--- @param textureId number Texture ID.
+--- @return table New DrawableDefinition instance.
 ---
-function SUPPORTED_EQUIPMENT:contains(ped_hash, weapon_hash)
-    self.cached_hash = ped_hash + weapon_hash
-    return self.hash_table[self.cached_hash]
+function DrawableDefinition.new(drawableId, textureId)
+    local self = {
+        drawableId = drawableId,
+        textureId = textureId
+    }
+
+    ---
+    --- Unpacks the drawable and texture IDs.
+    --- @return number, number Unpacked drawable and texture IDs.
+    ---
+    function self:unpack()
+        return self.drawableId, self.textureId
+    end
+
+    return self
 end
 
----
---- Retrieve equipment data for the last checked hash keys.
---- @return table Equipment data corresponding to the last checked hash keys.
----
-function SUPPORTED_EQUIPMENT:retrieve()
-    return self.data[self.cached_hash]
-end
 
-
-local ped_hash_cache = {}
-local wpn_hash_cache = {}
-
+local EquipmentDefinition = {}
 
 ---
---- Create an equipment definition with holstered and drawn IDs along with textures.
---- @param id_holstered number Holstered equipment ID.
---- @param id_drawn number Drawn equipment ID.
---- @param texture_holstered number Holstered texture ID.
---- @param texture_drawn number Drawn texture ID (defaults to holstered texture if not provided).
+--- Creates an equipment definition with holstered and drawn IDs along with textures.
+--- @param holsteredDrawableId number Holstered equipment ID.
+--- @param drawnDrawableId number Drawn equipment ID.
+--- @param holsteredTextureId number Holstered texture ID.
+--- @param drawnTextureId number Drawn texture ID (defaults to holstered texture if not provided).
 --- @return table Equipment definition.
 ---
-local function getEquipmentDefinition(id_holstered, id_drawn, texture_holstered, texture_drawn)
-    return {
-        id_holstered = id_holstered,
-        id_drawn = id_drawn,
-        texture_holstered = texture_holstered,
-        texture_drawn = texture_drawn or texture_holstered
+function EquipmentDefinition.new(holsteredDrawableId, drawnDrawableId, holsteredTextureId, drawnTextureId)
+    if holsteredTextureId == nil then
+        holsteredTextureId = 0
+    end
+
+    if drawnTextureId == nil then
+        drawnTextureId = holsteredTextureId
+    end
+
+    local self = {
+        holstered = DrawableDefinition.new(holsteredDrawableId, holsteredTextureId),
+        drawn = DrawableDefinition.new(drawnDrawableId, drawnTextureId)
     }
+
+    return self
 end
 
 
@@ -110,7 +159,7 @@ end
 --- @return number The pedestrian model hash value.
 ---
 local function getPedHash(name)
-    return getHash(name, ped_hash_cache, IsModelValid, "Ped")
+    return getHash(name, pedHashCache, IsModelValid, "Ped")
 end
 
 
@@ -121,38 +170,41 @@ end
 --- @return number The weapon hash value.
 ---
 local function getWeaponHash(name)
-    return getHash(name, wpn_hash_cache, IsWeaponValid, "Weapon")
+    return getHash(name, wpnHashCache, IsWeaponValid, "Weapon")
 end
 
 
 ---
---- Register equipment for a specific pedestrian, component, and weapon combination.
---- @param ped_name string Name of the pedestrian model.
---- @param component_id number Component ID.
---- @param weapon_name string Name of the weapon.
---- @param id_holstered number Holstered equipment ID.
---- @param id_drawn number Drawn equipment ID.
---- @param texture_holstered number Holstered texture ID.
---- @param texture_drawn number Drawn texture ID.
+--- Registers equipment for a specific pedestrian, component, and weapon combination.
+--- @param pedName string Name of the pedestrian model.
+--- @param componentId number Component ID.
+--- @param weaponName string Name of the weapon.
+--- @param holsteredDrawableId number Holstered equipment ID.
+--- @param drawnDrawableId number Drawn equipment ID.
+--- @param holsteredTextureId number Holstered texture ID.
+--- @param drawnTextureId number Drawn texture ID.
+--- @return number, number, number, table Registered pedHash, weaponHash, componentId, and equipmentDefinition.
 ---
-local function registerEquipment(ped_name, component_id, weapon_name, id_holstered, id_drawn, texture_holstered, texture_drawn)
-    local ped_hash = getPedHash(ped_name)
-    local weapon_hash = getWeaponHash(weapon_name)
-    local equipment_definition = getEquipmentDefinition(id_holstered, id_drawn, texture_holstered or 0, texture_drawn)
+local function getEquipment(pedName, componentId, weaponName, holsteredDrawableId, drawnDrawableId, holsteredTextureId, drawnTextureId)
+    local pedHash = getPedHash(pedName)
+    local weaponHash = getWeaponHash(weaponName)
+    local equipmentDefinition = EquipmentDefinition.new(holsteredDrawableId, drawnDrawableId, holsteredTextureId, drawnTextureId)
 
-    SUPPORTED_EQUIPMENT:add(ped_hash, weapon_hash, component_id, equipment_definition)
+    return pedHash, weaponHash, componentId, equipmentDefinition
 end
 
 
 ---
 --- Load equipment configurations from the EQUIPMENT table.
 ---
-local function loadConfig()
+function loadSupportedEquipmentFromConfig()
+    local supportedEquipment = EquipmentModule.new()
+
     for _, element in ipairs(EQUIPMENT) do
-        registerEquipment(table.unpack(element))
+        supportedEquipment:add(getEquipment(table.unpack(element)))
     end
 
     EQUIPMENT = nil
-end
 
-loadConfig()
+    return supportedEquipment
+end

@@ -1,114 +1,145 @@
+local PED_COMPONENT_VARIATION_PALETTE_ID = 0
+
+
+local PedDataCache = {}
+
 ---
---- Substitute values for keys in a string.
---- @param s string String containing keys like "${name}".
---- @param tab table Table containing values for the keys.
---- @return string String with values substituted for keys.
+--- Creates a new instance of PedDataCache.
+--- @return table New PedDataCache instance.
 ---
-local function interp(s, tab)
-    return (s:gsub('($%b{})', function(w) return tab[w:sub(3, -2)] or w end))
+function PedDataCache.new()
+    local self = {
+        component = nil,
+        equipment = nil,
+        ped = nil,
+        weapon = nil
+    }
+
+    ---
+    --- Unpacks holstered equipment information from cached pedestrian data.
+    --- @return number, number, number Pedestrian component, holstered equipment ID, and holstered texture ID.
+    ---
+    function self:unpackHolstered()
+        return self.component, self.equipment.holstered:unpack()
+    end
+
+    ---
+    --- Unpacks drawn equipment information from cached pedestrian data.
+    --- @return number, number, number Pedestrian component, drawn equipment ID, and drawn texture ID.
+    ---
+    function self:unpackDrawn()
+        return self.component, self.equipment.drawn:unpack()
+    end
+
+    return self
 end
 
 
-getmetatable("").__mod = interp
-
+local PedDataPackage = {}
 
 ---
---- Create and return a data package for a pedestrian with specified component, equipment, and texture details.
+--- Creates and returns a data package for a pedestrian with specified component, equipment, and texture details.
 --- @param ped number Pedestrian ID.
 --- @param component number Pedestrian component ID.
 --- @param equipment number Pedestrian equipment ID.
 --- @param texture number Pedestrian texture ID.
 --- @return table Data package containing ped, component, equipment, texture, and an issue message.
 ---
-local function createPedDataPackage(ped, component, equipment, texture)
-    local ped_data_package = {
+function PedDataPackage.new(ped, component, equipment, texture)
+    local self = {
         ped = ped,
         component = component,
         equipment = equipment,
         texture = texture,
-        issue_message = ""
+        issueMessage = ""
     }
 
-
     ---
-    --- Add a message to the issue message of a pedestrian data package.
+    --- Adds a message to the issue message of a pedestrian data package.
     --- @param message string Message to be added.
     ---
-    function ped_data_package:addMessage(message)
-        self.issue_message = self.issue_message .. message
+    function self:addMessage(message)
+        self.issueMessage = self.issueMessage .. message
     end
 
+    ---
+    --- Converts the data package to a string representation.
+    --- @return string String representation of the data package.
+    ---
+    function self:toFormattedString()
+        return string.format("%d %d %s %s %s", self.ped, self.component, self.equipment, self.texture, self.issueMessage)
+    end
 
-    return ped_data_package
+    return self
 end
 
 
 ---
---- Advise on an out-of-range value in the data package and update the package accordingly.
+--- Advises on an out-of-range value in the data package and updates the package accordingly.
 --- @param name string Name of the value to check.
---- @param max_value number Maximum allowed value.
---- @param data_package table Data package to check and update.
+--- @param valueMax number Maximum allowed value.
+--- @param pedDataPackage table Data package to check and update.
 ---
-local function adviseOnOutOfRangeValue(name, max_value, data_package)
-    local value = data_package[name]
+local function adviseOnOutOfRangeValue(name, valueMax, pedDataPackage)
+    local value = pedDataPackage[name]
 
-    if value <= max_value then
+    if value <= valueMax then
         return
     end
 
-    data_package[name] = "!" .. value .. "!"
-    data_package:addMessage(" | INVALID ${name} ID  ${value}, highest available ID: ${max_value}" % { name = string.upper(name), value = value, max_value = max_value })
+    pedDataPackage[name] = "!" .. value .. "!"
+    pedDataPackage:addMessage(string.format(" | INVALID %s ID  %x, highest available ID: %x", string.upper(name), value, valueMax ))
 end
 
 
 ---
---- Generate an error message for an invalid pedestrian component variation.
---- Advise on out-of-range values for equipment and texture.
---- @param data_package table Data package containing ped, component, equipment, texture, and issue messages.
+--- Generates an error message for an invalid pedestrian component variation.
+--- Advises on out-of-range values for equipment and texture.
+--- @param pedDataPackage table Data package containing ped, component, equipment, texture, and issue messages.
 --- @return string Error message for the invalid ped component variation.
 ---
-local function getErrorMessageForInvalidVariation(data_package)
-    local num_avail_equip = GetNumberOfPedDrawableVariations(data_package.ped, data_package.component) - 1
-    local num_avail_textures = GetNumberOfPedTextureVariations(data_package.ped, data_package.component, data_package.equipment) - 1
+local function getErrorMessageForInvalidVariation(pedDataPackage)
+    local noAvailDrawable = GetNumberOfPedDrawableVariations(pedDataPackage.ped, pedDataPackage.component) - 1
+    local numAvailTextures = GetNumberOfPedTextureVariations(pedDataPackage.ped, pedDataPackage.component, pedDataPackage.equipment) - 1
 
-    adviseOnOutOfRangeValue("equipment", num_avail_equip, data_package)
-    adviseOnOutOfRangeValue("texture", num_avail_textures, data_package)
+    adviseOnOutOfRangeValue("equipment", noAvailDrawable, pedDataPackage)
+    adviseOnOutOfRangeValue("texture", numAvailTextures, pedDataPackage)
 
-    return "Invalid ped component variation: ${ped} ${component} ${equipment} ${texture} ${issue_message}" % data_package
+    return "Invalid ped component variation: " .. pedDataPackage:toFormattedString()
 end
 
 
 ---
---- Set pedestrian component variation based on weapon change, validating and handling errors.
+--- Sets pedestrian component variation based on weapon change, validating and handling errors.
 --- @param ped number Pedestrian ID.
---- @param component number Pedestrian component ID.
---- @param equipment number Pedestrian equipment ID.
---- @param texture number Pedestrian texture ID.
+--- @param componentId number Pedestrian component ID.
+--- @param drawableId number Pedestrian equipment ID.
+--- @param textureId number Pedestrian texture ID.
 ---
-local function setPedComponentVariationBasedOnWeaponChange(ped, component, equipment, texture)
-    if not IsPedComponentVariationValid(ped, component, equipment, texture) then
-        local error_message = getErrorMessageForInvalidVariation(createPedDataPackage(ped, component, equipment, texture))
+local function setPedComponentVariationBasedOnWeaponChange(ped, componentId, drawableId, textureId)
+    if not IsPedComponentVariationValid(ped, componentId, drawableId, textureId) then
+        local error_message = getErrorMessageForInvalidVariation(PedDataPackage.new(ped, componentId, drawableId, textureId))
 
         error(error_message)
     end
 
-    SetPedComponentVariation(ped, component, equipment, texture, 0)
+    SetPedComponentVariation(ped, componentId, drawableId, textureId, PED_COMPONENT_VARIATION_PALETTE_ID)
 end
 
 
 ---
---- Retrieve matching equipment for a pedestrian and weapon, considering drawn and holstered states.
+--- Retrieves matching equipment for a pedestrian and weapon, considering drawn and holstered states.
 --- @param ped number Pedestrian ID.
---- @param ped_supported_components table Table of supported components for the given pedestrian and weapon.
+--- @param supportedComponents table Table of supported components for the given pedestrian and weapon.
 --- @return number, table Pedestrian component ID and corresponding equipment table.
 ---
-local function getMatchingEquipment(ped, ped_supported_components)
-    for component_id, component_list in pairs(ped_supported_components) do
-        local ped_equipment_id = GetPedDrawableVariation(ped, component_id)
-        local equipment = component_list[ped_equipment_id]
+local function getMatchingEquipment(ped, supportedComponents)
+    for componentId, componentList in pairs(supportedComponents) do
+        local drawableId = GetPedDrawableVariation(ped, componentId)
+        local equipment = componentList[drawableId]
 
-        if equipment and (equipment.id_holstered == ped_equipment_id or equipment.id_drawn == ped_equipment_id) then
-            return component_id, equipment
+        if equipment and (equipment.holstered.drawableId == drawableId or equipment.drawn.drawableId == drawableId) then
+            return componentId, equipment
         end
     end
 end
@@ -116,71 +147,60 @@ end
 
 ---
 --- Updates equipment based on the selected weapon for the player's pedestrian.
---- @param cache table A table storing cached pedestrian data, including component and equipment information.
+--- @param supportedEquipment table A table storing supported equipment data.
+--- @param pedDataCache table A table storing cached pedestrian data, including component and equipment information.
 ---
-local function updateEquipment(cache)
+local function updateEquipment(supportedEquipment, pedDataCache)
     local ped = GetPlayerPed(-1)
-    local ped_weapon = GetSelectedPedWeapon(ped)
+    local weapon = GetSelectedPedWeapon(ped)
 
-    if ped == cache.ped and ped_weapon == cache.weapon then
+    if ped == pedDataCache.ped and weapon == pedDataCache.weapon then
         return
     end
 
-    cache.ped = ped
-    cache.weapon = ped_weapon
+    pedDataCache.ped = ped
+    pedDataCache.weapon = weapon
 
-    -- prevent future updates ped when nothing has changed
-    if cache.component then
-        setPedComponentVariationBasedOnWeaponChange(ped, cache:unpackHolstered())
-        cache.component = nil
+    --- prevent future updates ped when nothing has changed
+    if pedDataCache.component then
+        setPedComponentVariationBasedOnWeaponChange(ped, pedDataCache:unpackHolstered())
+        pedDataCache.component = nil
     end
 
-    if not SUPPORTED_EQUIPMENT:contains(GetEntityModel(ped), ped_weapon) then
+    if not supportedEquipment:contains(GetEntityModel(ped), weapon) then
         return
     end
 
-    local component, equipment = getMatchingEquipment(ped, SUPPORTED_EQUIPMENT:retrieve())
+    local component, equipment = getMatchingEquipment(ped, supportedEquipment:retrieve())
 
     if not equipment then
         return
     end
 
-    cache.component = component
-    cache.equipment = equipment
+    pedDataCache.component = component
+    pedDataCache.equipment = equipment
 
-    setPedComponentVariationBasedOnWeaponChange(ped, cache:unpackDrawn())
+    setPedComponentVariationBasedOnWeaponChange(ped, pedDataCache:unpackDrawn())
 end
 
 
 ---
---- A thread that continuously updates the equipment based on the player's selected weapon.
---- Caches component and equipment information to avoid redundant updates.
+--- Main entry point for the script. Initializes supported equipment and continuously updates equipment based on the player's selected weapon.
 ---
-Citizen.CreateThread(function()
-    local cached_ped_data = {}
-
-
-    ---
-    --- Unpacks holstered equipment information from cached pedestrian data.
-    --- @return number, number, number Pedestrian component, holstered equipment ID, and holstered texture ID.
-    ---
-    function cached_ped_data:unpackHolstered()
-        return self.component, self.equipment.id_holstered, self.equipment.texture_holstered
-    end
-
-
-    ---
-    --- Unpacks drawn equipment information from cached pedestrian data.
-    --- @return number, number, number Pedestrian component, drawn equipment ID, and drawn texture ID.
-    ---
-    function cached_ped_data:unpackDrawn()
-        return self.component, self.equipment.id_drawn, self.equipment.texture_drawn
-    end
-
+local function main()
+    local supportedEquipment = loadSupportedEquipmentFromConfig()
+    local pedDataCache = PedDataCache.new()
 
     while true do
-        updateEquipment(cached_ped_data)
+        updateEquipment(supportedEquipment, pedDataCache)
 
         Citizen.Wait(PAUSE_DURATION_BETWEEN_UPDATES_IN_MS)
     end
-end)
+end
+
+
+---
+--- A Citizen thread that continuously updates the equipment based on the player's selected weapon.
+--- Caches component and equipment information to avoid redundant updates.
+---
+Citizen.CreateThread(main)
