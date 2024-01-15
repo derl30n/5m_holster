@@ -20,7 +20,7 @@ function PedDataCache.new()
     --- @return number, number, number Pedestrian component, holstered equipment ID, and holstered texture ID.
     ---
     function self:unpackHolstered()
-        return self.component, self.equipment.holstered:unpack()
+        return self.ped, self.component, self.equipment.holstered:unpack()
     end
 
     ---
@@ -28,7 +28,7 @@ function PedDataCache.new()
     --- @return number, number, number Pedestrian component, drawn equipment ID, and drawn texture ID.
     ---
     function self:unpackDrawn()
-        return self.component, self.equipment.drawn:unpack()
+        return self.ped, self.component, self.equipment.drawn:unpack()
     end
 
     return self
@@ -163,7 +163,7 @@ local function updateEquipment(supportedEquipment, pedDataCache)
 
     --- prevent future updates ped when nothing has changed
     if pedDataCache.component then
-        setPedComponentVariationBasedOnWeaponChange(ped, pedDataCache:unpackHolstered())
+        setPedComponentVariationBasedOnWeaponChange(pedDataCache:unpackHolstered())
         pedDataCache.component = nil
     end
 
@@ -180,7 +180,7 @@ local function updateEquipment(supportedEquipment, pedDataCache)
     pedDataCache.component = component
     pedDataCache.equipment = equipment
 
-    setPedComponentVariationBasedOnWeaponChange(ped, pedDataCache:unpackDrawn())
+    setPedComponentVariationBasedOnWeaponChange(pedDataCache:unpackDrawn())
 end
 
 
