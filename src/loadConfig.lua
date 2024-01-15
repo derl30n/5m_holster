@@ -1,3 +1,7 @@
+local pedHashCache = {}
+local wpnHashCache = {}
+
+
 local EquipmentModule = {}
 
 ---
@@ -53,13 +57,6 @@ function EquipmentModule.new()
 
     return self
 end
-
-
-supportedEquipment = EquipmentModule.new()
-
-
-local pedHashCache = {}
-local wpnHashCache = {}
 
 
 local DrawableDefinition = {}
@@ -195,15 +192,23 @@ end
 
 
 ---
---- Load equipment configurations from the EQUIPMENT table.
+--- Loads supported equipment configurations from the global EQUIPMENT table and initializes an EquipmentModule.
+--- Caches and registers pedestrian and weapon hashes, and equipment configurations.
+--- @return table An instance of EquipmentModule containing the loaded supported equipment configurations.
 ---
-function loadSupportedEquipmentFromConfig()
+function LoadSupportedEquipmentFromConfig()
     local supportedEquipment = EquipmentModule.new()
 
+    -- Iterate through each element in the global EQUIPMENT table
     for _, element in ipairs(EQUIPMENT) do
-        supportedEquipment:add(getEquipment(table.unpack(element)))
+        -- Retrieve or register hash values for pedestrian and weapon names
+        local pedHash, weaponHash, componentId, equipmentDefinition = getEquipment(table.unpack(element))
+
+        -- Add the equipment data to the supported equipment module
+        supportedEquipment:add(pedHash, weaponHash, componentId, equipmentDefinition)
     end
 
+    -- Clear the global EQUIPMENT table to free up memory
     EQUIPMENT = nil
 
     return supportedEquipment

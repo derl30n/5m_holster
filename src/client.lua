@@ -1,40 +1,3 @@
-local PED_COMPONENT_VARIATION_PALETTE_ID = 0
-
-
-local PedDataCache = {}
-
----
---- Creates a new instance of PedDataCache.
---- @return table New PedDataCache instance.
----
-function PedDataCache.new()
-    local self = {
-        component = nil,
-        equipment = nil,
-        ped = nil,
-        weapon = nil
-    }
-
-    ---
-    --- Unpacks holstered equipment information from cached pedestrian data.
-    --- @return number, number, number Pedestrian component, holstered equipment ID, and holstered texture ID.
-    ---
-    function self:unpackHolstered()
-        return self.ped, self.component, self.equipment.holstered:unpack()
-    end
-
-    ---
-    --- Unpacks drawn equipment information from cached pedestrian data.
-    --- @return number, number, number Pedestrian component, drawn equipment ID, and drawn texture ID.
-    ---
-    function self:unpackDrawn()
-        return self.ped, self.component, self.equipment.drawn:unpack()
-    end
-
-    return self
-end
-
-
 local PedDataPackage = {}
 
 ---
@@ -55,10 +18,41 @@ function PedDataPackage.new(ped, component, equipment, texture)
     }
 
     ---
+    --- Generates an error message for an invalid pedestrian component variation.
+    --- Advises on out-of-range values for equipment and texture.
+    --- @return string Error message for the invalid ped component variation.
+    ---
+    function self:getErrorMessageForInvalidVariation()
+        local noAvailDrawable = GetNumberOfPedDrawableVariations(self.ped, self.component) - 1
+        local numAvailTextures = GetNumberOfPedTextureVariations(self.ped, self.component, self.equipment) - 1
+
+        self:_adviseOnOutOfRangeValue("equipment", noAvailDrawable)
+        self:_adviseOnOutOfRangeValue("texture", numAvailTextures)
+
+        return "Invalid ped component variation: " .. self:_toFormattedString()
+    end
+
+    ---
+    --- Advises on an out-of-range value in the data package and updates the package accordingly.
+    --- @param name string Name of the value to check.
+    --- @param valueMax number Maximum allowed value.
+    ---
+    function self:_adviseOnOutOfRangeValue(name, valueMax)
+        local value = self[name]
+
+        if value <= valueMax then
+            return
+        end
+
+        self[name] = "!" .. value .. "!"
+        self:_addMessage(string.format(" | INVALID %s ID  %x, highest available ID: %x", string.upper(name), value, valueMax ))
+    end
+
+    ---
     --- Adds a message to the issue message of a pedestrian data package.
     --- @param message string Message to be added.
     ---
-    function self:addMessage(message)
+    function self:_addMessage(message)
         self.issueMessage = self.issueMessage .. message
     end
 
@@ -66,7 +60,7 @@ function PedDataPackage.new(ped, component, equipment, texture)
     --- Converts the data package to a string representation.
     --- @return string String representation of the data package.
     ---
-    function self:toFormattedString()
+    function self:_toFormattedString()
         return string.format("%d %d %s %s %s", self.ped, self.component, self.equipment, self.texture, self.issueMessage)
     end
 
@@ -74,125 +68,129 @@ function PedDataPackage.new(ped, component, equipment, texture)
 end
 
 
----
---- Advises on an out-of-range value in the data package and updates the package accordingly.
---- @param name string Name of the value to check.
---- @param valueMax number Maximum allowed value.
---- @param pedDataPackage table Data package to check and update.
----
-local function adviseOnOutOfRangeValue(name, valueMax, pedDataPackage)
-    local value = pedDataPackage[name]
+local Client = {}
 
-    if value <= valueMax then
-        return
+function Client.new()
+    local PED_COMPONENT_VARIATION_PALETTE_ID = 0
+
+    local self = {
+        supportedEquipment = LoadSupportedEquipmentFromConfig(),
+        component = nil,
+        equipment = nil,
+        ped = nil,
+        weapon = nil
+    }
+
+    ---
+    --- Sets pedestrian component variation based on weapon change, validating and handling errors.
+    --- @param ped number Pedestrian ID.
+    --- @param componentId number Pedestrian component ID.
+    --- @param drawableId number Pedestrian equipment ID.
+    --- @param textureId number Pedestrian texture ID.
+    ---
+    local function _setPedComponentVariationBasedOnWeaponChange(ped, componentId, drawableId, textureId)
+        if not IsPedComponentVariationValid(ped, componentId, drawableId, textureId) then
+            local error_message = PedDataPackage.new(ped, componentId, drawableId, textureId):getErrorMessageForInvalidVariation()
+
+            error(error_message)
+        end
+
+        SetPedComponentVariation(ped, componentId, drawableId, textureId, PED_COMPONENT_VARIATION_PALETTE_ID)
     end
 
-    pedDataPackage[name] = "!" .. value .. "!"
-    pedDataPackage:addMessage(string.format(" | INVALID %s ID  %x, highest available ID: %x", string.upper(name), value, valueMax ))
-end
-
-
----
---- Generates an error message for an invalid pedestrian component variation.
---- Advises on out-of-range values for equipment and texture.
---- @param pedDataPackage table Data package containing ped, component, equipment, texture, and issue messages.
---- @return string Error message for the invalid ped component variation.
----
-local function getErrorMessageForInvalidVariation(pedDataPackage)
-    local noAvailDrawable = GetNumberOfPedDrawableVariations(pedDataPackage.ped, pedDataPackage.component) - 1
-    local numAvailTextures = GetNumberOfPedTextureVariations(pedDataPackage.ped, pedDataPackage.component, pedDataPackage.equipment) - 1
-
-    adviseOnOutOfRangeValue("equipment", noAvailDrawable, pedDataPackage)
-    adviseOnOutOfRangeValue("texture", numAvailTextures, pedDataPackage)
-
-    return "Invalid ped component variation: " .. pedDataPackage:toFormattedString()
-end
-
-
----
---- Sets pedestrian component variation based on weapon change, validating and handling errors.
---- @param ped number Pedestrian ID.
---- @param componentId number Pedestrian component ID.
---- @param drawableId number Pedestrian equipment ID.
---- @param textureId number Pedestrian texture ID.
----
-local function setPedComponentVariationBasedOnWeaponChange(ped, componentId, drawableId, textureId)
-    if not IsPedComponentVariationValid(ped, componentId, drawableId, textureId) then
-        local error_message = getErrorMessageForInvalidVariation(PedDataPackage.new(ped, componentId, drawableId, textureId))
-
-        error(error_message)
+    ---
+    --- Unpacks holstered equipment information from cached pedestrian data.
+    --- @return number, number, number Pedestrian component, holstered equipment ID, and holstered texture ID.
+    ---
+    function self:unpackHolstered()
+        return self.ped, self.component, self.equipment.holstered:unpack()
     end
 
-    SetPedComponentVariation(ped, componentId, drawableId, textureId, PED_COMPONENT_VARIATION_PALETTE_ID)
-end
+    ---
+    --- Unpacks drawn equipment information from cached pedestrian data.
+    --- @return number, number, number Pedestrian component, drawn equipment ID, and drawn texture ID.
+    ---
+    function self:unpackDrawn()
+        return self.ped, self.component, self.equipment.drawn:unpack()
+    end
 
+    ---
+    --- Sets the pedestrian component variation for holstered equipment based on the cached data.
+    ---
+    function self:setPedComponentVariationHolstered()
+        _setPedComponentVariationBasedOnWeaponChange(self:unpackHolstered())
+    end
 
----
---- Retrieves matching equipment for a pedestrian and weapon, considering drawn and holstered states.
---- @param ped number Pedestrian ID.
---- @param supportedComponents table Table of supported components for the given pedestrian and weapon.
---- @return number, table Pedestrian component ID and corresponding equipment table.
----
-local function getMatchingEquipment(ped, supportedComponents)
-    for componentId, componentList in pairs(supportedComponents) do
-        local drawableId = GetPedDrawableVariation(ped, componentId)
-        local equipment = componentList[drawableId]
+    ---
+    --- Sets the pedestrian component variation for drawn equipment based on the cached data.
+    ---
+    function self:setPedComponentVariationDrawn()
+        _setPedComponentVariationBasedOnWeaponChange(self:unpackDrawn())
+    end
 
-        if equipment and (equipment.holstered.drawableId == drawableId or equipment.drawn.drawableId == drawableId) then
-            return componentId, equipment
+    ---
+    --- Retrieves matching equipment for a pedestrian and weapon, considering drawn and holstered states.
+    --- @return number, table Pedestrian component ID and corresponding equipment table.
+    ---
+    function self:getMatchingEquipment()
+        for componentId, componentList in pairs(self.supportedEquipment:retrieve()) do
+            local drawableId = GetPedDrawableVariation(self.ped, componentId)
+            local equipment = componentList[drawableId]
+
+            if equipment and (equipment.holstered.drawableId == drawableId or equipment.drawn.drawableId == drawableId) then
+                return componentId, equipment
+            end
         end
     end
+
+    ---
+    --- Updates equipment based on the selected weapon for the player's pedestrian.
+    ---
+    function self:updateEquipment()
+        local ped = GetPlayerPed(-1)
+        local weapon = GetSelectedPedWeapon(ped)
+
+        if ped == self.ped and weapon == self.weapon then
+            return
+        end
+
+        self.ped = ped
+        self.weapon = weapon
+
+        --- prevent future updates ped when nothing has changed
+        if self.component then
+            self:setPedComponentVariationHolstered()
+            self.component = nil
+        end
+
+        if not self.supportedEquipment:contains(GetEntityModel(ped), weapon) then
+            return
+        end
+
+        local component, equipment = self:getMatchingEquipment()
+
+        if not equipment then
+            return
+        end
+
+        self.component = component
+        self.equipment = equipment
+
+        self:setPedComponentVariationDrawn()
+    end
+
+    return self
 end
 
 
 ---
---- Updates equipment based on the selected weapon for the player's pedestrian.
---- @param supportedEquipment table A table storing supported equipment data.
---- @param pedDataCache table A table storing cached pedestrian data, including component and equipment information.
----
-local function updateEquipment(supportedEquipment, pedDataCache)
-    local ped = GetPlayerPed(-1)
-    local weapon = GetSelectedPedWeapon(ped)
-
-    if ped == pedDataCache.ped and weapon == pedDataCache.weapon then
-        return
-    end
-
-    pedDataCache.ped = ped
-    pedDataCache.weapon = weapon
-
-    --- prevent future updates ped when nothing has changed
-    if pedDataCache.component then
-        setPedComponentVariationBasedOnWeaponChange(pedDataCache:unpackHolstered())
-        pedDataCache.component = nil
-    end
-
-    if not supportedEquipment:contains(GetEntityModel(ped), weapon) then
-        return
-    end
-
-    local component, equipment = getMatchingEquipment(ped, supportedEquipment:retrieve())
-
-    if not equipment then
-        return
-    end
-
-    pedDataCache.component = component
-    pedDataCache.equipment = equipment
-
-    setPedComponentVariationBasedOnWeaponChange(pedDataCache:unpackDrawn())
-end
-
-
----
---- Main entry point for the script. Initializes supported equipment and continuously updates equipment based on the player's selected weapon.
+--- Main entry point for the script. Initializes the client and continuously updates equipment based on the player's selected weapon.
 ---
 local function main()
-    local supportedEquipment = loadSupportedEquipmentFromConfig()
-    local pedDataCache = PedDataCache.new()
+    local client = Client.new()
 
     while true do
-        updateEquipment(supportedEquipment, pedDataCache)
+        client:updateEquipment()
 
         Citizen.Wait(PAUSE_DURATION_BETWEEN_UPDATES_IN_MS)
     end
